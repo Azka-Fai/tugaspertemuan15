@@ -12,20 +12,26 @@ class Anggota extends Model
 
     protected $table = 'anggota';
 
+
     protected $fillable = [
+        'kode_anggota',
         'nama',
         'email',
-        'jenis_kelamin',
+        'telepon',
+        'alamat',
         'tanggal_lahir',
+        'jenis_kelamin',
+        'pekerjaan',
+        'tanggal_daftar',
         'status',
-        'created_at',
     ];
 
     protected $casts = [
-        'tanggal_lahir' => 'date',
-        'created_at'    => 'datetime',
+    'tanggal_lahir'  => 'date',
+    'tanggal_daftar' => 'date', // <-- Tambahkan baris ini
+    'created_at'     => 'datetime',
     ];
-
+    
     // =========================================================
     //  ACCESSORS
     // =========================================================

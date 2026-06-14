@@ -1,15 +1,15 @@
-# Tugas Pertemuan 12
+# Tugas Pertemuan 13
 
 ## Tugas 1
-![Test Kode Buku](<screenshot/testkodebuku.png>)
-![Test Kondisi 1](<screenshot/teskondisi1.png>)
+![auto generate code](<screenshot/autogeneratecode.png>)
+![menyimpan](<screenshot/berhasiltambah.png>)
 ![Test Kondisi 2](<screenshot/teskondisi2.png>)
 
 ## Tugas 2
-![Pilih Semua](<screenshot/checkall.png>)
-![Hapus Semua](<screenshot/deleteall2.png>)
+![Tombol Export](<screenshot/eksporexcel.png>)
+![Hasil Excel](<screenshot/hasilexcel.png>)
 
 ## Tugas 3
-![Tombol Export](<screenshot/tombolexport.png>)
-![Hasil CSV](<screenshot/hasilcsv.png>)
+![Tombol Search](<screenshot/tombolsearch.png>)
+![Hasil Search](<screenshot/search 3.png>)
 

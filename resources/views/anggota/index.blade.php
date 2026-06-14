@@ -13,6 +13,10 @@
     </a>
 </div>
  
+<a href="{{ route('anggota.export') }}" class="btn btn-success">
+    <i class="bi bi-file-excel"></i> Export Excel
+</a>
+
 {{-- Statistik --}}
 <div class="row mb-4">
     <div class="col-md-4">
@@ -55,7 +59,45 @@
         </div>
     </div>
 </div>
- 
+
+<form action="{{ route('anggota.search') }}" method="GET" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="keyword" class="form-control" placeholder="Cari nama/email/telepon">
+        </div>
+        <div class="col-md-2">
+            <select name="jenis_kelamin" class="form-select">
+                <option value="">Semua Jenis Kelamin</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="status" class="form-select">
+                <option value="">Semua Status</option>
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="pekerjaan" class="form-select">
+                <option value="">Semua Pekerjaan</option>
+                <option value="Mahasiswa">Mahasiswa</option>
+                <option value="Pegawai">Pegawai</option>
+                <option value="Wiraswasta">Wiraswasta</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-search"></i> Cari
+            </button>
+            <a href="{{ route('anggota.index') }}" class="btn btn-secondary">
+                <i class="bi bi-x"></i> Reset
+            </a>
+        </div>
+    </div>
+</form>
+
 {{-- Tabel Anggota --}}
 <div class="card">
     <div class="card-body">
@@ -117,11 +159,21 @@
                                        title="Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>
+
                                     <a href="{{ route('anggota.edit', $anggota->id) }}" 
                                        class="btn btn-sm btn-warning"
                                        title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
+
+                                    {{-- Tombol Delete --}}
+                                    <form action="{{ route('anggota.destroy', $anggota->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus anggota ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

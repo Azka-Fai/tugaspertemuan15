@@ -23,6 +23,12 @@ Route::get('/buku/kategori/{kategori}', [BukuController::class, 'filterKategori'
      ->name('buku.kategori');
  
 // Resource route untuk Anggota (akan dibuat nanti)
-Route::resource('anggota', AnggotaController::class);
+Route::get('/anggota/export', [App\Http\Controllers\AnggotaController::class, 'export'])->name('anggota.export');
+
+Route::get('/anggota/search', [App\Http\Controllers\AnggotaController::class, 'search'])->name('anggota.search');
+
+Route::resource('anggota', AnggotaController::class)->parameters([
+    'anggota' => 'anggota'
+]);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
