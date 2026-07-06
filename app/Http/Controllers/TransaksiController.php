@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class TransaksiController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan Daftar Transaksi
      */
     public function index()
     {
@@ -24,21 +24,21 @@ class TransaksiController extends Controller
     }
  
     /**
-     * Show the form for creating a new resource.
+     * Halaman Form Peminjaman
      */
     public function create()
     {
-        // Get only anggota aktif
+        // Ambil data anggota yang aktif
         $anggotas = Anggota::where('status', 'Aktif')->orderBy('nama')->get();
         
-        // Get only buku yang tersedia (stok > 0)
+        // Ambil data buku yang tersedia
         $bukus = Buku::where('stok', '>', 0)->orderBy('judul')->get();
         
         return view('transaksi.create', compact('anggotas', 'bukus'));
     }
  
     /**
-     * Store a newly created resource in storage.
+     * Proses Peminjaman Buku
      */
     public function store(Request $request)
     {
@@ -110,6 +110,11 @@ class TransaksiController extends Controller
             DB::transaction(function () use ($id) {
                 $transaksi = Transaksi::findOrFail($id);
                 
+                // Cek apakah sudah dikembalikan
+                if ($transaksi->status === 'Dikembalikan') {
+                    throw new \Exception('Buku sudah dikembalikan sebelumnya.');
+                }
+ 
                 // 1. Update transaksi
                 $tanggalDikembalikan = now();
                 $denda = $this->hitungDenda($transaksi, $tanggalDikembalikan);
@@ -150,16 +155,13 @@ class TransaksiController extends Controller
         return 'TRX-' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
     }
  
-    /**
-     * Hitung denda keterlambatan.
-     */
     private function hitungDenda($transaksi, $tanggalDikembalikan)
     {
         $hariTerlambat = $transaksi->tanggal_kembali->diffInDays($tanggalDikembalikan, false);
         
         if ($hariTerlambat > 0) {
             // Denda Rp 5.000 per hari
-            return $hariTerlambat * 5000;
+            return ceil($hariTerlambat) * 5000;
         }
         
         return 0;
@@ -195,7 +197,9 @@ class TransaksiController extends Controller
 
         // Hitung summary
         $totalTransaksi = $transaksis->count();
-        $totalDenda = $transaksis->sum('denda');
+        $totalDenda = $transaksis->sum(function($transaksi) {
+            return $transaksi->denda_berjalan;
+        });
 
         return view('transaksi.laporan', compact(
             'transaksis', 'anggotas', 'totalTransaksi', 'totalDenda'
@@ -207,13 +211,13 @@ class TransaksiController extends Controller
      */
     public function exportPdf(Request $request)
     {
-        // Increase limits for PDF generation
+        // Setting limit
         ini_set('memory_limit', '512M');
         set_time_limit(120);
 
         $query = Transaksi::with(['anggota', 'buku']);
 
-        // Apply same filters as laporan
+        // Filter: Range tanggal
         if ($request->filled('tanggal_dari')) {
             $query->whereDate('tanggal_pinjam', '>=', $request->tanggal_dari);
         }
@@ -229,7 +233,9 @@ class TransaksiController extends Controller
 
         $transaksis = $query->latest()->get();
         $totalTransaksi = $transaksis->count();
-        $totalDenda = $transaksis->sum('denda');
+        $totalDenda = $transaksis->sum(function($transaksi) {
+            return $transaksi->denda_berjalan;
+        });
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('transaksi.laporan_pdf', compact(
             'transaksis', 'totalTransaksi', 'totalDenda'
@@ -237,13 +243,13 @@ class TransaksiController extends Controller
 
         $pdf->setPaper('A4', 'landscape');
 
-        // Save PDF to public/downloads/ directory as static file
+        // simpan file pdf
         $downloadDir = public_path('downloads');
         if (!file_exists($downloadDir)) {
             mkdir($downloadDir, 0755, true);
         }
 
-        // Clean old PDF files (older than 1 hour)
+        // hapus file pdf lama
         foreach (glob($downloadDir . '/laporan-*.pdf') as $oldFile) {
             if (filemtime($oldFile) < time() - 3600) {
                 @unlink($oldFile);
@@ -253,7 +259,7 @@ class TransaksiController extends Controller
         $filename = 'laporan-transaksi-' . date('Y-m-d-His') . '.pdf';
         $pdf->save($downloadDir . '/' . $filename);
 
-        // Redirect browser to the static file
+        // Kembali
         return redirect('/downloads/' . $filename);
     }
 }

@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
  
 // Public routes 
@@ -14,9 +17,10 @@ Route::get('/', function () {
 // Protected routes 
 Route::middleware(['auth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ 
+    // Search
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
  
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('anggota', AnggotaController::class);
  
     // Transaksi - Custom routes 
-    Route::get('/transaksi/laporan', [TransaksiController::class, 'laporan'])->name('transaksi.laporan');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('/transaksi/laporan/pdf', [TransaksiController::class, 'exportPdf'])->name('transaksi.laporan.pdf');
     Route::put('/transaksi/{id}/kembalikan', [TransaksiController::class, 'kembalikan'])->name('transaksi.kembalikan');
 

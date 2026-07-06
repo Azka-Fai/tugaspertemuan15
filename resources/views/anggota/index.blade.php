@@ -5,14 +5,15 @@
         <i class="bi bi-people"></i>
         Daftar Anggota
     </h1>
-    <a href="{{ route('anggota.create') }}" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i> Tambah Anggota
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('anggota.export') }}" class="btn btn-success">
+            <i class="bi bi-file-excel"></i> Export Excel
+        </a>
+        <a href="{{ route('anggota.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Tambah Anggota
+        </a>
+    </div>
 </div>
- 
-<a href="{{ route('anggota.export') }}" class="btn btn-success">
-    <i class="bi bi-file-excel"></i> Export Excel
-</a>
 
 {{-- Statistik --}}
 <div class="row mb-4">
@@ -58,7 +59,7 @@
 </div>
 
 <form action="{{ route('anggota.search') }}" method="GET" class="mb-4">
-    <div class="row">
+    <div class="row g-2">
         <div class="col-md-4">
             <input type="text" name="keyword" class="form-control" placeholder="Cari nama/email/telepon">
         </div>
@@ -85,12 +86,14 @@
             </select>
         </div>
         <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-search"></i> Cari
-            </button>
-            <a href="{{ route('anggota.index') }}" class="btn btn-secondary">
-                <i class="bi bi-x"></i> Reset
-            </a>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search"></i> Cari
+                </button>
+                <a href="{{ route('anggota.index') }}" class="btn btn-secondary w-100">
+                    <i class="bi bi-x"></i> Reset
+                </a>
+            </div>
         </div>
     </div>
 </form>
@@ -150,7 +153,7 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="btn-group" role="group">
+                                <div class="d-flex justify-content-start gap-1">
                                     <a href="{{ route('anggota.show', $anggota->id) }}" 
                                        class="btn btn-sm btn-info text-white"
                                        title="Detail">
@@ -164,7 +167,7 @@
                                     </a>
 
                                     {{-- Tombol Delete --}}
-                                    <form action="{{ route('anggota.destroy', $anggota->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus anggota ini?');">
+                                    <form action="{{ route('anggota.destroy', $anggota->id) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('Yakin ingin menghapus anggota ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" title="Hapus">

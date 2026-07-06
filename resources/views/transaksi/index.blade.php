@@ -1,12 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Daftar Transaksi Peminjaman') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="container py-5">
 
             {{-- Flash Messages --}}
             @if(session('success'))
@@ -27,8 +20,8 @@
                     <i class="bi bi-arrow-left-right"></i>
                     Daftar Transaksi Peminjaman
                 </h1>
-                <div>
-                    <a href="{{ route('transaksi.laporan') }}" class="btn btn-info text-white me-2">
+                <div class="d-flex gap-2">
+                    <a href="{{ route('laporan.index') }}" class="btn btn-info text-white">
                         <i class="bi bi-file-earmark-bar-graph"></i> Laporan
                     </a>
                     <a href="{{ route('transaksi.create') }}" class="btn btn-primary">
@@ -98,7 +91,7 @@
                                             @if($transaksi->terlambat > 0)
                                                 <br>
                                                 <span class="badge bg-danger mt-1">
-                                                    <i class="bi bi-exclamation-triangle"></i> Terlambat {{ $transaksi->terlambat }} hari
+                                                    <i class="bi bi-exclamation-triangle"></i> Terlambat {{ ceil($transaksi->terlambat) }} hari
                                                 </span>
                                             @endif
                                         @else
@@ -106,7 +99,7 @@
                                             @if($transaksi->terlambat > 0)
                                                 <br>
                                                 <span class="badge bg-secondary mt-1">
-                                                    Terlambat {{ $transaksi->terlambat }} hari
+                                                    Terlambat {{ ceil($transaksi->terlambat) }} hari
                                                 </span>
                                             @endif
                                         @endif
@@ -132,5 +125,4 @@
             </div>
 
         </div>
-    </div>
 </x-app-layout>

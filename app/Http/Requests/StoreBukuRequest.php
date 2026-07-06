@@ -24,7 +24,7 @@ class StoreBukuRequest extends FormRequest
     {
         // 1. Aturan Dasar & Pemanggilan Custom Rule Kode Buku
         $rules = [
-            'kode_buku' => ['required', 'string', new \App\Rules\KodeBukuFormat()],
+            'kode_buku' => ['required', 'string', 'unique:buku,kode_buku', new \App\Rules\KodeBukuFormat()],
             'judul' => 'required|string|max:255',
             'kategori' => 'required|string',
             'pengarang' => 'required|string',
@@ -60,6 +60,7 @@ class StoreBukuRequest extends FormRequest
             'required' => 'Kolom :attribute wajib diisi.',
             'string' => 'Kolom :attribute harus berupa teks.',
             'integer' => 'Kolom :attribute harus berupa angka.',
+            'unique' => 'Kolom :attribute sudah terdaftar, silakan gunakan yang lain.',
             
             // Pesan Error Spesifik (Kondisional)
             'bahasa.in' => 'Untuk kategori Programming, bahasa buku wajib "Inggris".',

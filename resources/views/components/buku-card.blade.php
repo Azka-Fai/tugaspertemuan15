@@ -1,4 +1,4 @@
-<div class="card h-100 shadow-sm border-primary">
+<div class="card flex-grow-1">
     <div class="card-body">
         <h5 class="card-title text-primary mb-3">
             <i class="bi bi-book-half me-2"></i> {{ $buku->judul }}
@@ -25,25 +25,22 @@
         </div>
     </div>
 
-    <div class="btn-group-vertical d-grid gap-2">
-        <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-sm btn-info text-white">
-            <i class="bi bi-eye"></i> Detail
-        </a>
-        <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-sm btn-warning">
-            <i class="bi bi-pencil"></i> Edit
-        </a>
-        
-    {{-- Delete Button dengan SweetAlert --}}
-    <form action="{{ route('buku.destroy', $buku->id) }}" 
-        method="POST" 
-        class="d-inline delete-form">
-        @csrf
-        @method('DELETE')
-        <button type="button" class="btn btn-sm btn-danger w-100 btn-delete" 
-                data-judul="{{ $buku->judul }}">
-            <i class="bi bi-trash"></i> Hapus
-        </button>
-    </form>
-
+    <div class="card-footer bg-transparent">
+        <div class="d-flex justify-content-between">
+            <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-sm btn-info text-white" title="Detail">
+                <i class="bi bi-eye"></i> Detail
+            </a>
+            <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-sm btn-warning" title="Edit">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+            {{-- Delete Button dengan SweetAlert --}}
+            <form action="{{ route('buku.destroy', $buku->id) }}" method="POST" class="d-inline delete-form">
+                @csrf
+                @method('DELETE')
+                <button type="button" class="btn btn-sm btn-danger btn-delete" data-judul="{{ $buku->judul }}" title="Hapus">
+                    <i class="bi bi-trash"></i> Hapus
+                </button>
+            </form>
+        </div>
     </div>
 </div>

@@ -21,17 +21,25 @@
                     <x-nav-link :href="route('anggota.index')" :active="request()->routeIs('anggota.*')">
                         {{ __('Anggota') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.*')">
+                    <x-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.*') && !request()->routeIs('laporan.*')">
                         {{ __('Transaksi') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('transaksi.laporan')" :active="request()->routeIs('transaksi.laporan')">
+                    <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
                         {{ __('Laporan') }}
                     </x-nav-link>
                 </div>
             </div>
  
-            <!-- Settings Dropdown -->
+            <!-- Search Box & Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <form class="d-flex me-4" action="{{ route('search') }}" method="GET" style="max-width: 250px;">
+                    <input class="form-control form-control-sm me-2" type="search" name="q"
+                           placeholder="Cari..." value="{{ request('q') }}">
+                    <button class="btn btn-outline-secondary btn-sm" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -88,10 +96,10 @@
             <x-responsive-nav-link :href="route('anggota.index')" :active="request()->routeIs('anggota.*')">
                 {{ __('Anggota') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.*')">
+            <x-responsive-nav-link :href="route('transaksi.index')" :active="request()->routeIs('transaksi.*') && !request()->routeIs('laporan.*')">
                 {{ __('Transaksi') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('transaksi.laporan')" :active="request()->routeIs('transaksi.laporan')">
+            <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
                 {{ __('Laporan') }}
             </x-responsive-nav-link>
         </div>

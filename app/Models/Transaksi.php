@@ -66,11 +66,25 @@ class Transaksi extends Model
         return 0;
     }
  
-    // Accessor untuk status badge HTML
     public function getStatusBadgeAttribute()
     {
         return $this->status == 'Dipinjam' 
             ? '<span class="badge bg-warning text-dark">Dipinjam</span>'
             : '<span class="badge bg-success">Dikembalikan</span>';
+    }
+
+    // Accessor untuk hitung total denda (termasuk denda berjalan jika masih dipinjam)
+    public function getDendaBerjalanAttribute()
+    {
+        if ($this->status == 'Dikembalikan') {
+            return $this->denda ?? 0;
+        }
+        
+        $terlambat = $this->terlambat;
+        if ($terlambat > 0) {
+            return ceil($terlambat) * 5000; // Rp 5.000 per hari
+        }
+        
+        return 0;
     }
 }

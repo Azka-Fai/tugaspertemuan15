@@ -2,18 +2,11 @@
     <div class="container py-5">  
 @section('title', 'Daftar Buku')
  
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="mb-4">
     <h1>
         <i class="bi bi-book"></i>
         Daftar Buku
     </h1>
-    <a href="{{ route('buku.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Tambah Buku
-    </a>
-    
-    <a href="{{ route('buku.export') }}" class="btn btn-success">
-        <i class="bi bi-download"></i> Export CSV
-    </a>
 </div>
  
 {{-- Statistik Cards --}}
@@ -147,35 +140,47 @@
     @csrf
 </form>
 
-<!-- Tombol Select All & Hapus -->
+<!-- Tombol Select All & Aksi -->
 <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
     <div class="form-check">
         <input type="checkbox" id="select-all" class="form-check-input border-dark">
         <label class="form-check-label fw-bold" for="select-all">Pilih Semua Buku</label>
     </div>
-    <!-- Perhatikan tambahan form="bulk-delete-form" di bawah ini -->
-    <button type="submit" form="bulk-delete-form" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus semua buku yang dipilih?')">
-        <i class="bi bi-trash"></i> Hapus Terpilih
-    </button>
+    
+    <div class="d-flex gap-2">
+        <a href="{{ route('buku.create') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-circle"></i> Tambah Buku
+        </a>
+        <a href="{{ route('buku.export') }}" class="btn btn-success btn-sm">
+            <i class="bi bi-download"></i> Export CSV
+        </a>
+        <button type="submit" form="bulk-delete-form" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus semua buku yang dipilih?')">
+            <i class="bi bi-trash"></i> Hapus Terpilih
+        </button>
+    </div>
 </div>
 
 <!-- Looping Data Buku  -->
-@forelse ($bukus as $buku)
-    <div class="mb-3">
-        <!-- Checkbox untuk tiap buku. Perhatikan tambahan form="bulk-delete-form" -->
-        <div class="form-check mb-2">
-            <input class="form-check-input border-dark" type="checkbox" name="buku_ids[]" value="{{ $buku->id }}" id="check-{{ $buku->id }}" form="bulk-delete-form">
-            <label class="form-check-label text-muted small" for="check-{{ $buku->id }}">Tandai buku ini</label>
+<div class="row">
+    @forelse ($bukus as $buku)
+        <div class="col-md-6 col-lg-4 mb-4 d-flex flex-column">
+            <!-- Checkbox untuk tiap buku. Perhatikan tambahan form="bulk-delete-form" -->
+            <div class="form-check mb-2">
+                <input class="form-check-input border-dark" type="checkbox" name="buku_ids[]" value="{{ $buku->id }}" id="check-{{ $buku->id }}" form="bulk-delete-form">
+                <label class="form-check-label text-muted small" for="check-{{ $buku->id }}">Tandai buku ini</label>
+            </div>
+            
+            <!-- Card Buku bawaan -->
+            <x-buku-card :buku="$buku" /> 
         </div>
-        
-        <!-- Card Buku bawaan -->
-        <x-buku-card :buku="$buku" /> 
-    </div>
-@empty
-    <div class="alert alert-info">
-        <i class="bi bi-info-circle"></i> Tidak ada data buku
-    </div>
-@endforelse
+    @empty
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Tidak ada data buku
+            </div>
+        </div>
+    @endforelse
+</div>
  
 @if ($bukus->count() > 0)
     <div class="text-center mt-4">
@@ -189,6 +194,8 @@
 @endif
 
 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     // Script Select All Checkbox
     document.getElementById('select-all').addEventListener('change', function() {
@@ -221,5 +228,5 @@
         });
     });
 </script>
+@endpush
 </div> </x-app-layout>
-

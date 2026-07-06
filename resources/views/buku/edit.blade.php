@@ -201,7 +201,7 @@
                     
                     {{-- Buttons --}}
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-secondary">
+                        <a href="{{ route('buku.index') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Kembali
                         </a>
                         <button type="submit" class="btn btn-warning">

@@ -36,7 +36,7 @@ class AnggotaController extends Controller
      */
     public function show(string $id)
     {
-        $anggota = Anggota::findOrFail($id);
+        $anggota = Anggota::with(['transaksis.buku'])->findOrFail($id);
         return view('anggota.show', compact('anggota'));
     }
  

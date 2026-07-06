@@ -26,8 +26,7 @@
                             name="kode_anggota"
                             id="kode_anggota"
                             class="form-control @error('kode_anggota') is-invalid @enderror"
-                            value="{{ old('kode_anggota', $kodeAnggota) }}"
-                            readonly>
+                            value="{{ old('kode_anggota', $kodeAnggota) }}">
                             @error('kode_anggota')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

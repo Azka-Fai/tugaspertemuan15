@@ -1,12 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Laporan Transaksi') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="container py-5">
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1>
@@ -146,14 +139,14 @@
                                     </td>
                                     <td>
                                         @if($transaksi->terlambat > 0)
-                                            <span class="text-danger fw-bold">{{ $transaksi->terlambat }} hari</span>
+                                            <span class="text-danger fw-bold">{{ ceil($transaksi->terlambat) }} hari</span>
                                         @else
                                             <span class="text-success">-</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if($transaksi->denda > 0)
-                                            <span class="text-danger fw-bold">Rp {{ number_format($transaksi->denda, 0, ',', '.') }}</span>
+                                        @if($transaksi->denda_berjalan > 0)
+                                            <span class="text-danger fw-bold">Rp {{ number_format($transaksi->denda_berjalan, 0, ',', '.') }}</span>
                                         @else
                                             <span class="text-muted">-</span>
                                         @endif
@@ -181,5 +174,4 @@
             </div>
 
         </div>
-    </div>
 </x-app-layout>

@@ -104,9 +104,65 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
     
+    <div class="card mt-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-clock-history"></i> Riwayat Peminjaman
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row text-center mb-4">
+                <div class="col-6">
+                    <h6 class="text-muted">Total Peminjaman</h6>
+                    <h4>{{ $anggota->transaksis->count() }} Buku</h4>
+                </div>
+                <div class="col-6">
+                    <h6 class="text-muted">Total Denda</h6>
+                    <h4 class="text-danger">Rp {{ number_format($anggota->transaksis->sum('denda'), 0, ',', '.') }}</h4>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Buku</th>
+                            <th>Tgl Pinjam</th>
+                            <th>Status</th>
+                            <th>Denda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($anggota->transaksis->sortByDesc('created_at') as $trx)
+                        <tr>
+                            <td>{{ $trx->buku->judul }}</td>
+                            <td>{{ $trx->tanggal_pinjam->format('d/m/Y') }}</td>
+                            <td>
+                                <span class="badge bg-{{ $trx->status == 'Dipinjam' ? 'warning' : 'success' }}">
+                                    {{ $trx->status }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($trx->denda > 0)
+                                    <span class="text-danger">Rp {{ number_format($trx->denda, 0, ',', '.') }}</span>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Belum ada riwayat peminjaman</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-header bg-secondary text-white">

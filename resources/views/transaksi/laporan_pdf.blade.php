@@ -151,7 +151,7 @@
                 </td>
                 <td>
                     @if($transaksi->terlambat > 0)
-                        <span class="text-danger">{{ $transaksi->terlambat }} hari</span>
+                        <span class="text-danger">{{ ceil($transaksi->terlambat) }} hari</span>
                     @else
                         -
                     @endif
