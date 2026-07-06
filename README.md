@@ -3,7 +3,7 @@
 Berikut adalah hasil tangkapan layar (*screenshot*) dari sistem perpustakaan yang telah dibangun:
  
 ### 1. Tampilan Login
-![Login](image/login.png)
+![Login](<image/login.png>)
 
 ### 2. Dashboard & Statistik Lanjutan
 ![Dashboard](image/dashboard.png)
