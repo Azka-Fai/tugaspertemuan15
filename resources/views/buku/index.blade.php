@@ -1,8 +1,7 @@
-@extends('layouts.app')
- 
+<x-app-layout>
+    <div class="container py-5">  
 @section('title', 'Daftar Buku')
  
-@section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>
         <i class="bi bi-book"></i>
@@ -189,7 +188,7 @@
     </div>
 @endif
 
-@push('scripts')
+
 <script>
     // Script Select All Checkbox
     document.getElementById('select-all').addEventListener('change', function() {
@@ -222,6 +221,5 @@
         });
     });
 </script>
-@endpush
+</div> </x-app-layout>
 
-@endsection

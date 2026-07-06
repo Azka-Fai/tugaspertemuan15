@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<x-app-layout>
+    <div class="container py-5">
  
-@section('title', 'Tambah Buku')
- 
-@section('content')
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card">
@@ -13,6 +11,33 @@
                 </h4>
             </div>
             <div class="card-body">
+                {{-- Flash Messages --}}
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle"></i> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                {{-- Validation Error Summary --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><i class="bi bi-exclamation-triangle"></i> Terjadi kesalahan:</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
                 <form action="{{ route('buku.store') }}" method="POST">
                     @csrf
                     
@@ -27,7 +52,8 @@
                                    id="kode_buku" 
                                    class="form-control @error('kode_buku') is-invalid @enderror"
                                    value="{{ old('kode_buku') }}"
-                                   placeholder="Contoh: BK-001">
+                                   placeholder="Contoh: BK-PROG-001">
+                            <small class="text-muted">Format kode buku harus: BK-XXX-000 (contoh: BK-PROG-001)</small>
                             @error('kode_buku')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -248,4 +274,4 @@
     });
 </script>
 @endpush
-@endsection
+</div></x-app-layout>

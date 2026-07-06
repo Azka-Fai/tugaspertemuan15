@@ -1,34 +1,51 @@
 <?php
  
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\AnggotaController;
-use App\Http\Controllers\DashboardController;
-
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Route::get('/buku/search', [App\Http\Controllers\BukuController::class, 'search'])->name('buku.search');
-
-// Resource route untuk Buku
-Route::post('/buku/bulk-delete', [App\Http\Controllers\BukuController::class, 'bulkDelete'])->name('buku.bulk-delete');
-// Route untuk Export CSV Buku
-Route::get('/buku/export', [\App\Http\Controllers\BukuController::class, 'export'])->name('buku.export');
-
-Route::resource('buku', BukuController::class);
-
-// Custom route untuk filter kategori
-Route::get('/buku/kategori/{kategori}', [BukuController::class, 'filterKategori'])
-     ->name('buku.kategori');
+use App\Http\Controllers\TransaksiController;
+use Illuminate\Support\Facades\Route;
  
-// Resource route untuk Anggota (akan dibuat nanti)
-Route::get('/anggota/export', [App\Http\Controllers\AnggotaController::class, 'export'])->name('anggota.export');
+// Public routes 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+ 
+// Protected routes 
+Route::middleware(['auth'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+ 
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::get('/anggota/search', [App\Http\Controllers\AnggotaController::class, 'search'])->name('anggota.search');
+    // Buku - Custom Routes 
+    Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+    Route::get('/buku/export', [BukuController::class, 'export'])->name('buku.export');
+    Route::get('/buku/kategori/{kategori}', [BukuController::class, 'kategori'])->name('buku.kategori');
+    Route::post('/buku/bulk-delete', [BukuController::class, 'bulkDelete'])->name('buku.bulk-delete'); // <-- Tambahkan baris ini
+    
+    // Buku - CRUD Utama
+    Route::resource('buku', BukuController::class);
+ 
+    // Anggota - Custom Routes 
+    Route::get('/anggota/search', [AnggotaController::class, 'search'])->name('anggota.search');
+    Route::get('/anggota/export', [AnggotaController::class, 'export'])->name('anggota.export');
 
-Route::resource('anggota', AnggotaController::class)->parameters([
-    'anggota' => 'anggota'
-]);
+    // Anggota - CRUD
+    Route::resource('anggota', AnggotaController::class);
+ 
+    // Transaksi - Custom routes 
+    Route::get('/transaksi/laporan', [TransaksiController::class, 'laporan'])->name('transaksi.laporan');
+    Route::get('/transaksi/laporan/pdf', [TransaksiController::class, 'exportPdf'])->name('transaksi.laporan.pdf');
+    Route::put('/transaksi/{id}/kembalikan', [TransaksiController::class, 'kembalikan'])->name('transaksi.kembalikan');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Transaksi - CRUD Utama
+    Route::resource('transaksi', TransaksiController::class);
+});
+ 
+require __DIR__.'/auth.php';

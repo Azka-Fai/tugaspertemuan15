@@ -1,8 +1,5 @@
-@extends('layouts.app')
- 
-@section('title', 'Daftar Anggota')
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>
         <i class="bi bi-people"></i>
@@ -190,4 +187,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-app-layout>

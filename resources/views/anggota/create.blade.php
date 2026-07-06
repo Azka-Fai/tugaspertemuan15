@@ -1,12 +1,6 @@
-@extends('layouts.app')
- 
-@section('title', 'Tambah Anggota')
- 
-@push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-@endpush
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
+
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card">
@@ -214,35 +208,12 @@
         </div>
     </div>
 </div>
-@endsection
- 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+
 <script>
-    // Initialize Flatpickr untuk tanggal lahir
-    flatpickr("#tanggal_lahir", {
-        dateFormat: "Y-m-d",
-        maxDate: "today",
-        locale: "id",
-        altInput: true,
-        altFormat: "d F Y",
-    });
-    
-    // Initialize Flatpickr untuk tanggal daftar
-    flatpickr("#tanggal_daftar", {
-        dateFormat: "Y-m-d",
-        maxDate: "today",
-        locale: "id",
-        altInput: true,
-        altFormat: "d F Y",
-        defaultDate: "today",
-    });
-    
     // Auto format telepon (hapus karakter non-digit)
     document.getElementById('telepon').addEventListener('input', function() {
         let value = this.value.replace(/[^\d+]/g, '');
         this.value = value;
     });
 </script>
-@endpush
+</div></x-app-layout>

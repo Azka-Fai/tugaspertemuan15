@@ -131,7 +131,7 @@ class BukuController extends Controller
     /**
      * Filter buku berdasarkan kategori.
      */
-    public function filterKategori($kategori)
+    public function kategori($kategori)
     {
         $bukus = Buku::where('kategori', $kategori)->latest()->get();
         

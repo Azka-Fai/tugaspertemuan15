@@ -1,13 +1,11 @@
-@extends('layouts.app')
- 
-@section('title', $anggota->nama)
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
+
 <div class="row">
     <div class="col-12 mb-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('anggota.index') }}">Anggota</a></li>
                 <li class="breadcrumb-item active">{{ $anggota->nama }}</li>
             </ol>
@@ -72,7 +70,7 @@
                         <td class="fw-bold">
                             <i class="bi bi-calendar text-success"></i> Tanggal Lahir
                         </td>
-                        <td>: {{ $anggota->tanggal_lahir->format('d F Y') }} ({{ $anggota->umur }} tahun)</td>
+                        <td>: {{ $anggota->tanggal_lahir->format('d F Y') }} ({{ $anggota->tanggal_lahir->age }} tahun)</td>
                     </tr>
                     <tr>
                         <td class="fw-bold">
@@ -90,7 +88,7 @@
                         <td class="fw-bold">
                             <i class="bi bi-calendar-check text-success"></i> Tanggal Daftar
                         </td>
-                        <td>: {{ $anggota->tanggal_daftar->format('d F Y') }} ({{ $anggota->lama_anggota }} hari)</td>
+                        <td>: {{ $anggota->tanggal_daftar->format('d F Y') }} ({{ $anggota->tanggal_daftar->diffInDays(now()) }} hari)</td>
                     </tr>
                 </table>
                 
@@ -135,4 +133,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-app-layout>

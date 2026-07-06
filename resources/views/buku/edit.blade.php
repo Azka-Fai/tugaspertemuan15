@@ -1,8 +1,6 @@
-@extends('layouts.app')
- 
-@section('title', 'Edit Buku')
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
+
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card">
@@ -227,4 +225,5 @@
         </div>
     </div>
 </div>
-@endsection
+
+</div></x-app-layout>

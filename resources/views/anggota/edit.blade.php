@@ -1,12 +1,6 @@
-@extends('layouts.app')
- 
-@section('title', 'Edit Anggota')
- 
-@push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-@endpush
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
+
 <div class="row justify-content-center">
     <div class="col-md-10">
         <div class="card">
@@ -212,33 +206,11 @@
                     <strong>Informasi:</strong><br />
                     - Anggota terdaftar: {{ $anggota->created_at->format('d M Y H:i') }}<br />
                     - Terakhir diupdate: {{ $anggota->updated_at->format('d M Y H:i') }}<br />
-                    - Lama menjadi anggota: {{ $anggota->lama_anggota }} hari ({{ round($anggota->lama_anggota / 365, 1) }} tahun)
+                    - Lama menjadi anggota: {{ $anggota->tanggal_daftar->diffInDays(now()) }} hari ({{ round($anggota->tanggal_daftar->diffInDays(now()) / 365, 1) }} tahun)
                 </small>
             </div>
         </div>
     </div>
 </div>
-@endsection
- 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-<script>
-    // Initialize Flatpickr
-    flatpickr("#tanggal_lahir", {
-        dateFormat: "Y-m-d",
-        maxDate: "today",
-        locale: "id",
-        altInput: true,
-        altFormat: "d F Y",
-    });
-    
-    flatpickr("#tanggal_daftar", {
-        dateFormat: "Y-m-d",
-        maxDate: "today",
-        locale: "id",
-        altInput: true,
-        altFormat: "d F Y",
-    });
-</script>
-@endpush
+
+</div></x-app-layout>

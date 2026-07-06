@@ -1,14 +1,12 @@
-@extends('layouts.app')
- 
-@section('title', $buku->judul)
- 
-@section('content')
+<x-app-layout>
+    <div class="container py-5">
+
 <div class="row">
     {{-- Breadcrumb --}}
     <div class="col-12 mb-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('buku.index') }}">Buku</a></li>
                 <li class="breadcrumb-item active">{{ $buku->judul }}</li>
             </ol>
@@ -159,14 +157,14 @@
                 </a>
                 
                 <hr>
-            {{-- Delete Button dengan SweetAlert --}}
+            {{-- Delete Button --}}
             <form action="{{ route('buku.destroy', $buku->id) }}" 
                 method="POST" 
-                class="d-inline delete-form">
+                class="d-inline"
+                onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku &quot;{{ $buku->judul }}&quot;?');">
                 @csrf
                 @method('DELETE')
-                <button type="button" class="btn btn-danger w-100 btn-delete" 
-                        data-judul="{{ $buku->judul }}">
+                <button type="submit" class="btn btn-danger w-100">
                     <i class="bi bi-trash"></i> Hapus Buku
                 </button>
             </form>
@@ -239,31 +237,5 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-    // SweetAlert confirmation untuk delete
-    document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const form = this.closest('form');
-            const judul = this.getAttribute('data-judul');
-
-            Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: `Apakah Anda yakin ingin menghapus buku "${judul}"?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-        });
-    });
-</script>
-@endpush
-@endsection
+    </div>
+</x-app-layout>

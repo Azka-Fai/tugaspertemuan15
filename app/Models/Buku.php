@@ -54,6 +54,17 @@ class Buku extends Model
     }
 
     /**
+     * Accessor: harga_format
+     * Mengembalikan harga dalam format Rupiah Indonesia.
+     *
+     * Contoh: 25000 → "Rp 25.000"
+     */
+    public function getHargaFormatAttribute(): string
+    {
+        return 'Rp ' . number_format($this->harga, 0, ',', '.');
+    }
+
+    /**
      * Accessor: tahun_label
      * Mengembalikan label berdasarkan tahun terbit.
      *
@@ -100,5 +111,11 @@ class Buku extends Model
     public function scopeTerbaru($query)
     {
         return $query->where('tahun_terbit', '>=', 2024);
+    }
+
+    // Tambahkan method ini di class Buku
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
     }
 }
